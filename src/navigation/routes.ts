@@ -1,10 +1,12 @@
 enum ROUTES {
     Home = "Home",
-    Characters = "Characters",
     DrawerMenu = "DrawerMenu",
     HomeStack = "HomeStack",
+    CharacterStack = "CharacterStack",
+    Characters = "Characters",
     DetailCharacter = "DetailCharacter",
-    Settings = "Settings"
+    EditCharacter = "EditCharacter",
+    AddCharacter = "AddCharacter",
 }
 
 export default ROUTES;

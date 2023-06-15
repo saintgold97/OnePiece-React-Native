@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Button, Text, TouchableOpacity } from "react-native";
 import { MyCard } from "../../components/Card/MyCard";
-import { urlCharacters, useCharacters } from "../../hooks/useCharacters";
+import { urlCharacters } from "../../hooks/useCharacters";
 import axios from "axios";
 import { Character } from "../../models/character";
-import ScreenFC, { CustomScreenFC } from "../../models/ScreenFC";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../models/RootStack";
+import { CharacterScreenFC } from "../../models/ScreenFC";
+import DeleteCard from "../../components/DeleteButton/DeleteButton";
 
-type DetailCharacterScreenRouteProp = RouteProp<
-  RootStackParamList,
-  "DetailCharacter"
->;
-
-const DetailCharacter: ScreenFC<"DetailCharacter"> = ({
+const DetailCharacter: CharacterScreenFC<"DetailCharacter"> = ({
   route,
   navigation,
 }) => {
   const [characters, setCharacters] = useState<Character | null>(null);
   const { params } = route;
   const characterId = params?.characterId;
-  const item = params?.item;
 
   useEffect(() => {
     axios.get<Character>(`${urlCharacters}/${characterId}`).then((response) => {
@@ -28,33 +21,60 @@ const DetailCharacter: ScreenFC<"DetailCharacter"> = ({
     });
   }, [characterId]);
 
+  //Status Delete
+  const [deleteStatus, setDeleteStatus] = useState("");
+  const deleteCard = async () => {
+    try {
+      await axios.delete(`${urlCharacters}/${characterId}`);
+      setDeleteStatus("Delete successful");
+      navigation.replace("Characters");
+    } catch (error) {
+      setDeleteStatus("Error delete card");
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{characters?.name}</Text>
-      {characters && (
-        <MyCard
-          style={styles.card}
-          img={`${characters.urlImg}`}
-          span1={"Role:"}
-          text1={`${characters.role}`}
-          span2={"Crews:"}
-          text2={`${characters.crew}`}
-          span3={"Fruit:"}
-          text3={characters.fruit ? `${characters.fruit}` : "N/A"}
-          span4="Size:"
-          text4={characters.size}
-          span5="Bounty:"
-          text5={characters.bounty}
-          span6="Age:"
-          text6={characters.age}
-        />
-      )}
+      <View style={{ margin: 10 }}>
+        {characters && (
+          <MyCard
+            style={styles.card}
+            img={`${characters.urlImg}`}
+            span1={"Role:"}
+            text1={`${characters.role}`}
+            span2={"Crews:"}
+            text2={`${characters.crew}`}
+            span3={"Fruit:"}
+            text3={characters.fruit ? `${characters.fruit}` : "N/A"}
+            span4="Size:"
+            text4={characters.size}
+            span5="Bounty:"
+            text5={characters.bounty}
+            span6="Age:"
+            text6={characters.age}
+          />
+        )}
+      </View>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Characters")}
       >
         <Text style={styles.buttonText}>Return</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate("EditCharacter", {
+            characterId: characterId,
+            item: characters ?? undefined,
+          })
+        }
+      >
+        <Text style={styles.buttonText}>Edit</Text>
+      </TouchableOpacity>
+      <DeleteCard style={styles.button} handleDelete={deleteCard} />
     </View>
   );
 };
@@ -74,18 +94,21 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: -30,
-    marginBottom: 10,
-    padding:16
+    marginBottom: 0,
+    padding: 16,
   },
   button: {
     backgroundColor: "#783F8E",
-    borderRadius:30,  
+    borderRadius: 30,
+    marginHorizontal: 10,
+    paddingVertical: 2,
+    marginVertical: 6,
   },
-  buttonText:{
-    textAlign:"center",
-    fontSize:20,
-    color:"#FBFFFE"
-  }
+  buttonText: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "#FBFFFE",
+  },
 });
 
 export default DetailCharacter;

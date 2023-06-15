@@ -14,9 +14,19 @@ export const useCharacters = (props: {
   const { name, role, crew } = props;
 
   useEffect(() => {
+    let finalUrl = urlCharacters + "?";
+    if (name) {
+      finalUrl += "name=" + name + "&";
+    }
+    if (role) {
+      finalUrl += "role=" + role + "&";
+    }
+    if (crew) {
+      finalUrl += "crew=" + crew + "&";
+    }
     setTimeout(() => {
       axios
-        .get<Character>(`${urlCharacters}`)
+        .get<Character>(`${finalUrl}`)
         .then((response: AxiosResponse) => {
           setCharacters(response.data);
         })

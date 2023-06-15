@@ -4,11 +4,17 @@ export type RootStackParamList = {
     Home: undefined;
     DrawerMenu:undefined;
     HomeStack:undefined;
-    Characters: undefined;
     CharacterStack: undefined;
+    Characters: undefined;
+    AddCharacter:undefined;
     DetailCharacter: {
         characterId?: string,
         item?: Character
     };
+    EditCharacter:{
+        characterId?: string,
+        item: Character | undefined,
+    };
+
     Settings:undefined,
 };

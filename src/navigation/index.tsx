@@ -17,9 +17,10 @@ import CharactersScreen from "../screens/Character/CharacterScreen";
 import { ScrollViewProps, ScrollView, Alert } from "react-native";
 import { RootStackParamList } from "../models/RootStack";
 import DetailCharacter from "../screens/Character/DetailCharacter";
+import EditCharacterScreen from "../screens/Character/EditCharacterScreen";
+import { AddCharacterScreen } from "../screens/Character/AddCharacterScreen";
 
 const RootStack = createStackNavigator<RootStackParamList>();
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeStack: React.FC = () => {
@@ -29,9 +30,16 @@ const HomeStack: React.FC = () => {
         name={ROUTES.Home}
         component={HomeScreen}
         options={{
-          headerStyle: { backgroundColor: "#FA9500" },
+           headerShown: false,
         }}
       />
+    </RootStack.Navigator>
+  );
+};
+
+const CharactersStack: React.FC = () => {
+  return (
+    <RootStack.Navigator>
       <RootStack.Screen
         name={ROUTES.Characters}
         component={CharactersScreen}
@@ -40,8 +48,23 @@ const HomeStack: React.FC = () => {
         }}
       />
       <RootStack.Screen
+        name={ROUTES.AddCharacter}
+        component={AddCharacterScreen}
+        options={{
+          headerStyle: { backgroundColor: "#FA9500" },
+        }}
+      />
+      <RootStack.Screen
         name={ROUTES.DetailCharacter}
         component={DetailCharacter}
+        options={{
+          headerStyle: { backgroundColor: "#FA9500" },
+          animationEnabled: false,
+        }}
+      />
+      <RootStack.Screen
+        name={ROUTES.EditCharacter}
+        component={EditCharacterScreen}
         options={{
           headerStyle: { backgroundColor: "#FA9500" },
           animationEnabled: false,
@@ -80,8 +103,8 @@ const TabNavigation: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={ROUTES.DrawerMenu}
-        component={DrawerMenu}
+        name={ROUTES.CharacterStack}
+        component={CharactersStack}
         options={{
           headerShown: false,
           tabBarLabel: ROUTES.Characters,
@@ -94,44 +117,6 @@ const TabNavigation: React.FC = () => {
   );
 };
 
-const CustomDrawerContent = (
-  props: ScrollViewProps & {
-    children?: React.ReactNode;
-  } & React.RefAttributes<ScrollView> &
-    React.ComponentProps<typeof DrawerItemList>
-) => {
-  const { navigate } =
-    useNavigation<StackNavigationProp<RootStackParamList, ROUTES>>();
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItem
-        label="Home"
-        inactiveTintColor="#FA9500"
-        onPress={() => navigate(ROUTES.HomeStack)}
-      />
-      <DrawerItemList {...props} />
-    </DrawerContentScrollView>
-  );
-};
-
-const DrawerMenu = () => {
-  return (
-    <Drawer.Navigator
-      initialRouteName={ROUTES.HomeStack}
-      screenOptions={{
-        headerTintColor: "black",
-        headerStyle: { backgroundColor: "orange" },
-        headerShadowVisible: true,
-        drawerInactiveTintColor: "orange",
-        drawerActiveTintColor: "orange",
-        /* drawerActiveBackgroundColor: "yellow", */
-      }}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen name={ROUTES.Characters} component={CharactersScreen} />
-    </Drawer.Navigator>
-  );
-};
 
 const NavigatorContainer = () => {
   return (

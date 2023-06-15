@@ -4,19 +4,19 @@ import React from "react";
 import ROUTES from "../navigation/routes";
 import { RootStackParamList } from "./RootStack";
 
-
 type ScreenNavigationProps<T extends keyof RootStackParamList> = {
-  navigation: StackNavigationProp<RootStackParamList, ROUTES>;
+  navigation: StackNavigationProp<RootStackParamList, T>;
   route: RouteProp<RootStackParamList, T>;
 };
 type ScreenFC<S extends keyof RootStackParamList> = React.FC<
   ScreenNavigationProps<S>
 >;
 
-type CustomScreenProps<T extends keyof RootStackParamList> = {
-  navigation: StackNavigationProp<RootStackParamList, ROUTES>;
+type CharacterScreenProps<S extends keyof RootStackParamList> = {
+  navigation: StackNavigationProp<RootStackParamList, S>;
+  route: RouteProp<RootStackParamList, S>;
 };
-export type CustomScreenFC<S extends keyof RootStackParamList> = React.FC<
-  CustomScreenProps<S>
+export type CharacterScreenFC<S extends keyof RootStackParamList> = React.FC<
+  CharacterScreenProps<S>
 >;
 export default ScreenFC;

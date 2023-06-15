@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1E2749",
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   image: {
     width: "100%",
-    height: 200,
+    height: 160,
     borderRadius: 8,
     marginBottom: 8,
   },
