@@ -6,7 +6,7 @@ import { CharacterScreenFC } from "../models/ScreenFC";
 const HomeScreen: CharacterScreenFC<"Home"> = ({navigation}) => {
 
   const startAdventure = () => {
-    navigation.navigate(ROUTES.Characters);
+    navigation.navigate(ROUTES.CharacterStack);
   };
 
   return (

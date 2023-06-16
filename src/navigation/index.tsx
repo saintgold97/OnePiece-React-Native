@@ -112,6 +112,11 @@ const TabNavigation: React.FC = () => {
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
+        listeners={{
+          tabPress: () => {
+            navigate(ROUTES.CharacterStack);
+          },
+        }}
       />
     </Tab.Navigator>
   );

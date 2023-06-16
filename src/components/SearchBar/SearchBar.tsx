@@ -9,8 +9,9 @@ type SearchProps = {
 export const SearchBar = ({ onSearch, text }: SearchProps) => {
   const [textInInput, setTextInInput] = useState("");
 
-  const handleSearch = () => {
-    onSearch(textInInput);
+  const handleChangeText = (text: string) => {
+    setTextInInput(text);
+    onSearch(text);
   };
 
   return (
@@ -18,12 +19,9 @@ export const SearchBar = ({ onSearch, text }: SearchProps) => {
       <TextInput
         style={styles.input}
         placeholder={`Search ${text}`}
-        onChangeText={(text) => setTextInInput(text)}
+        onChangeText={handleChangeText}
         accessibilityLabel="Search"
       />
-      <TouchableOpacity onPress={handleSearch} style={styles.button}>
-      <Text>Search</Text>
-      </TouchableOpacity>
     </View>
   );
 };
